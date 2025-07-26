@@ -1,7 +1,16 @@
 const express = require("express")
-const app = express.Router()
+const router = express.Router()
 
-//define api routes here
-app.use('/users', require('./users'))
+router.use((req, res, next) => {
+  console.log(`🛰️ ${req.method} ${req.url}`);
+  next();
+});
 
-module.exports = app
+
+
+router.use('/users', require('./users'))
+router.use('/legends', require('./legends.js'))
+router.use('/favorites', require('./favorites.js'))
+router.use('/auth', require('./auth.js'))
+
+module.exports = router
