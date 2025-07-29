@@ -3,11 +3,15 @@ import { Link, Route, Routes } from 'react-router-dom';
 import axios from 'axios'
 import Legends from './components/Legends';
 import Login from './components/Login';
-
+import UserHome from './components/UserHome';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Compare from './components/Compare';
 
 function App() {
   const [legends, setLegends] = useState([])
   const [user, setUser] = useState({})
+  const [favorites, setFavorites] = useState([])
 
   const getHeaders = () => {
     const token = window.localStorage.getItem('token');
@@ -56,23 +60,40 @@ const logout = () => {
       attempLoginWithToken()
   },[])
 
+useEffect(() => {
+  const token = window.localStorage.getItem("token");
+  if (!token) return;
+
+  const fetchFavorites = async () => {
+    try {
+      const { data } = await axios.get("/api/favorites", getHeaders());
+      //console.log(data);
+      setFavorites(data);
+    } catch (error) {
+      console.log("Error fetching favorites:", error);
+    }
+  };
+
+  fetchFavorites();
+}, [user])
+
   return (
     <div>
-      {
-        user.id ? (
-          <div>
-          <h1>Welcome {user.username}</h1>
+      <Navbar />
+      {user.id && (
+        <div>
+          <h3>Welcome {user.username}!</h3>
           <button onClick={logout}>Logout</button>
-          <Legends legends={legends}/>
-          </div>
-        ) : (
-          <div>
-          <Login attempLoginWithToken={attempLoginWithToken}/>
-          <Legends legends={legends}/>
-          </div>
-        )
-      }
+        </div>
+      )}
 
+          <Routes>
+            <Route path = "/" element={<Home/>} />
+            <Route path = "/userhome" element={<UserHome user={user} favorites={favorites} getHeaders={getHeaders} setFavorites={setFavorites} />} />
+            <Route path = "/login" element={<Login attempLoginWithToken={attempLoginWithToken} />} />
+            <Route path = "/legends" element={<Legends legends={legends} setLegends={setLegends}/>}/>
+            <Route path="/compare/:id1/:id2" element={<Compare />} />
+          </Routes>
     </div>
   )
 }

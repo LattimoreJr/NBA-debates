@@ -55,7 +55,18 @@ const fetchLegends = async ({ approvedOnly } = {}) => {
     return response.rows;
 };
 
+const getLegendById = async (id) => {
+  const SQL = `
+    SELECT *
+    FROM legends
+    WHERE id = $1
+  `;
+  const response = await client.query(SQL, [id]);
+  return response.rows[0];
+};
+
 module.exports = {
     createLegends,
-    fetchLegends
+    fetchLegends,
+    getLegendById
 }

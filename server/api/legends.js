@@ -4,8 +4,7 @@ const router = express.Router()
 const {
     fetchLegends,
     createLegends,
-    client
-
+    getLegendById
 } = require('../db/legends')
 const {
     isLoggedIn,
@@ -19,6 +18,18 @@ router.get('/', async (req, res, next) => {
         next(error)
     }
 })
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const legend = await getLegendById(req.params.id);
+    if (!legend) {
+      return res.status(404).send({ error: 'Legend not found or not approved' });
+    }
+    res.send(legend);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post('/submit', isLoggedIn, async (req, res, next) => {
   try {

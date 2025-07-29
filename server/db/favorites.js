@@ -13,13 +13,16 @@ const createFavorites = async (favorite) => {
 }
 
 const fetchFavorites = async (userId) => {
-        const SQL = `
-            SELECT *
-            FROM favorites
-            WHERE user_id = $1
-        `
-        const response = await client.query(SQL, [userId])
-        return response.rows
+    const SQL = `
+        SELECT legends.*
+        FROM favorites
+        JOIN legends
+        ON favorites.legend_id = legends.id
+        WHERE favorites.user_id = $1
+        LIMIT 10
+    `
+    const response = await client.query(SQL, [userId])
+    return response.rows
 }
 
 const deleteFavorite = async (favorite) => {
