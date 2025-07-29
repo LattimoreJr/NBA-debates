@@ -4,11 +4,18 @@ const {
 
 const isLoggedIn = async (req, res, next) => {
     try {
-        const user = await findUserByToken(req.headers.authorization)
-        req.user = user
-        next()
+        const token = req.headers.authorization?.replace('Bearer ', '');
+        if (!token || typeof token !== 'string') {
+            const err = new Error('No token provided');
+            err.status = 401;
+            return next(err);
+        }
+      
+        const user = await findUserByToken(token);
+        req.user = user;
+        next();
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 

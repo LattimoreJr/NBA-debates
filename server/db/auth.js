@@ -8,10 +8,13 @@ const findUserByToken = async (token) => {
     try {
         if (!process.env.JWT) {
             console.error('JWT secret is not defined in environment variables.');
-            throw new Error('JWT secret not configured');
+            throw new Error('JWT secret not configured');       
         }
+        if (token.startsWith('Bearer ')) {
+      token = token.replace('Bearer ', '');
+    }
         const payload = await jwt.verify(token, process.env.JWT)
-        console.log(payload)
+        //console.log(payload)
         const SQL = `
             SELECT id, username, is_admin
             FROM users
