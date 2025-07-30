@@ -63,6 +63,7 @@ const seed = async () => {
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             user_id UUID REFERENCES users(id) ON DELETE CASCADE,
             legend_id UUID REFERENCES legends(id) ON DELETE CASCADE,
+            order_rank INTEGER DEFAULT 0,
             UNIQUE (user_id, legend_id)
         );
     `

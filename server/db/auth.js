@@ -8,32 +8,30 @@ const findUserByToken = async (token) => {
     try {
         if (!process.env.JWT) {
             console.error('JWT secret is not defined in environment variables.');
-            throw new Error('JWT secret not configured');       
+            throw new Error('JWT secret not configured');
         }
         if (token.startsWith('Bearer ')) {
-      token = token.replace('Bearer ', '');
-    }
-        const payload = await jwt.verify(token, process.env.JWT)
-        //console.log(payload)
+            token = token.replace('Bearer ', '');
+        }
+        const payload = jwt.verify(token, process.env.JWT);
+
         const SQL = `
-            SELECT id, username, is_admin
+            SELECT id, username, is_admin AS "isAdmin"
             FROM users
             WHERE id = $1
-        `
-        const response = await client.query(SQL, [payload.id])
-        if(!response.rows.length){
-            const error = Error('bad credentials')
+        `;
+        const response = await client.query(SQL, [payload.id]);
+        if (!response.rows.length) {
+            const error = Error('user not found');
             error.status = 401;
-            throw error
+            throw error;
         }
-        return response.rows[0]
+        return response.rows[0];
     } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
-            console.log(error)
-        }
-        const er = Error('bad token')
+        console.error("Error in findUserByToken:", error.message);
+        const er = Error('bad token');
         er.status = 401;
-        throw er
+        throw er;
     }
 }
 
@@ -44,7 +42,7 @@ const authenticate = async (credentials) => {
         throw error;
     }
     const SQL = `
-        SELECT id, password
+        SELECT id, password, is_admin AS "isAdmin"
         FROM users
         WHERE username = $1
     `
@@ -64,7 +62,7 @@ const authenticate = async (credentials) => {
         console.error('JWT secret is not defined in environment variables.');
         throw new Error('JWT secret not configured');
     }
-    const token = await jwt.sign({id: response.rows[0].id}, process.env.JWT)
+    const token = await jwt.sign({id: response.rows[0].id, isAdmin: response.rows[0].isAdmin}, process.env.JWT)
     return {token}
 }
 

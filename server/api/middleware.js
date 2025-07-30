@@ -6,6 +6,7 @@ const isLoggedIn = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.replace('Bearer ', '');
         if (!token || typeof token !== 'string') {
+            console.error("Authorization header missing or invalid:", req.headers.authorization);
             const err = new Error('No token provided');
             err.status = 401;
             return next(err);
@@ -20,14 +21,13 @@ const isLoggedIn = async (req, res, next) => {
 }
 
 const isAdmin = (req, res, next) => {
-    if(req.user.is_admin){
-        next()
-    }else{
-        const er = Error('must be admin')
-        er.status = 401
-        next(er)
+    if(req.user.isAdmin){
+        next();
+    } else {
+        const er = Error('must be admin');
+        er.status = 401;
+        next(er);
     }
-   
 }
 
 module.exports = {

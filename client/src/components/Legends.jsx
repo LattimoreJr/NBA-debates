@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -22,25 +23,43 @@ const Legends = ({ legends, setLegends }) => {
         }
     };
 
+    const handleAddFavorite = async (id) => {
+        try {
+            const token = window.localStorage.getItem("token");
+            await axios.post(`/api/favorites/${id}`, {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            alert("Player added to favorites!");
+        } catch (error) {
+            console.error("Error adding favorite:", error);
+            alert("Could not add player to favorites");
+        }
+    };
+
     return (
         <div className="legend-container">
             <h1>NBA Legends</h1>
             {
                 legends.map((legend) => (
-                    <ul key={legend.id} className="legend-card">
-                        <li>
-                           {legend.image_url ? (
-                               <div className="legend-image-wrapper">
-                                   <img className="legend-image" src={legend.image_url} alt={`${legend.first_name} ${legend.last_name}`} />
-                               </div>
-                           ) : null}
-                            <br/>
-                            {legend.first_name} {legend.last_name}
-                        </li>
+                    <div key={legend.id} className="player-card">
+                        <div className="card-header">{legend.first_name} {legend.last_name}</div>
+                        {legend.image_url && (
+                            <div className="legend-image-wrapper">
+                                <img
+                                    className="legend-image"
+                                    src={legend.image_url}
+                                    alt={`${legend.first_name} ${legend.last_name}`}
+                                />
+                            </div>
+                        )}
                         <button onClick={() => handleSelect(legend.id)}>
                             {selected.includes(legend.id) ? "Selected" : "Select"}
                         </button>
-                    </ul>
+                        <button onClick={() => handleAddFavorite(legend.id)}>
+                            Add to Favorites
+                        </button>
+                        <div className="card-footer">Click select to compare</div>
+                    </div>
                 ))
             }
         </div>

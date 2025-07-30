@@ -9,11 +9,30 @@ import Home from './components/Home';
 import Compare from './components/Compare';
 import Admin from './components/Admin';
 import Register from './components/Register';
+import './index.css'
 
 function App() {
   const [legends, setLegends] = useState([])
   const [user, setUser] = useState({})
   const [favorites, setFavorites] = useState([])
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+ useEffect(() => {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    setIsLoggedIn(true);
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setIsAdmin(!!payload.isAdmin);
+    } catch (err) {
+      console.error("Invalid token", err);
+    }
+  } else {
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+  }
+}, []);
 
   const getHeaders = () => {
     const token = window.localStorage.getItem('token');
@@ -81,7 +100,7 @@ useEffect(() => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar isAdmin={isAdmin} isLoggedIn={isLoggedIn} />
       {user.id && (
         <div>
           <h3>Welcome {user.username}!</h3>
@@ -95,7 +114,7 @@ useEffect(() => {
             <Route path = "/login" element={<Login attempLoginWithToken={attempLoginWithToken} />} />
             <Route path = "/legends" element={<Legends legends={legends} setLegends={setLegends}/>}/>
             <Route path="/compare/:id1/:id2" element={<Compare />} />
-            <Route path= "/admin" element={<Admin/>}/>
+            <Route path= "/admin" element={<Admin isAdmin={isAdmin} isLoggedIn={isLoggedIn}/>}/>
             <Route path= "/register" element={<Register/>}/>
           </Routes>
     </div>

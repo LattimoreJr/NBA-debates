@@ -1,0 +1,69 @@
+.home-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: #c8102e;
+    font-family: Arial, sans-serif;
+    background: none;
+}
+
+.home-container::before,
+.home-container::after,
+.home-container .corner-bottom-left,
+.home-container .corner-bottom-right {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: url('/images/basketballs-bg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.home-container::before {
+    top: 20px;
+    left: 20px;
+}
+
+.home-container::after {
+    top: 20px;
+    right: 20px;
+}
+
+.home-container .corner-bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.home-container .corner-bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.home-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.home-container p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.home-container a {
+    color: #0055ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.home-container a:hover {
+    text-decoration: underline;
+}

@@ -24,13 +24,13 @@ const Compare = () => {
         console.error('Error fetching players:', error);
       }
     };
-    //console.log('fetching IDS:', id1, id2)
+
     if (id1 && id2) fetchPlayers();
   }, [id1, id2]);
 
   if (players.length !== 2) return <div>Loading players...</div>;
 
-  // Function to highlight which player has the better stat
+ 
   const highlightStat = (statKey, currentIndex) => {
     if (players.length < 2) return '';
     const val1 = players[0][statKey];
@@ -48,13 +48,24 @@ const Compare = () => {
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         {players.map((player, index) => (
-          <div className={`card ${flipped ? 'flipped' : ''}`} key={player.id}>
+          <div className={`card player-card ${flipped ? 'flipped' : ''}`} key={player.id}>
             <div className="card-inner">
               <div className="card-front">
-                {player.image_url ? <img className="legend-image" src={player.image_url}/> : null}
-                <h2>{player.first_name} {player.last_name}</h2>
-                <p>Click to Flip</p>
+                <div className="card-header">{player.first_name} {player.last_name}</div>
+                {player.image_url && (
+                  <img
+                    className="legend-image"
+                    src={player.image_url}
+                    alt={`${player.first_name} ${player.last_name}`}
+                  />
+                )}
+                <div className="card-footer">Click Compare to Flip</div>
               </div>
+              <img
+                    className="legend-image"
+                    src={player.image_url}
+                    alt={`${player.first_name} ${player.last_name}`}
+                  />
               <div className="card-back">
                 <p className={highlightStat('championships', index)} >Championships: {player.championships}</p>
                 <p className={highlightStat('finals_mvps', index)} >Finals MVPs: {player.finals_mvps}</p>

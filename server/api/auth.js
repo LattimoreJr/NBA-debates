@@ -18,12 +18,15 @@ router.post('/login', async (req, res, next) => {
 })
 
 router.get('/me', isLoggedIn, (req, res, next) => {
-        try {
-            res.send(req.user)
-        } catch (error) {
-            next(error)
-        }
-})
+    try {
+        const { id, username } = req.user;
+        
+        const isAdmin = req.user.isAdmin !== undefined ? req.user.isAdmin : req.user.is_admin;
+        res.send({ id, username, isAdmin: !!isAdmin });
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 
