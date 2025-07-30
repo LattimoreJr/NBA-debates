@@ -75,6 +75,7 @@ router.get('/pending', isLoggedIn, isAdmin, async (req, res, next) => {
   }
 });
 
+
 router.put('/:id/approve', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const SQL = `
@@ -84,6 +85,23 @@ router.put('/:id/approve', isLoggedIn, isAdmin, async (req, res, next) => {
       RETURNING *;
     `;
     const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/:id', isLoggedIn, isAdmin, async (req, res, next) => {
+  try {
+    const SQL = `
+      DELETE FROM nba_legends
+      WHERE id = $1
+      RETURNING *;
+    `;
+    const response = await client.query(SQL, [req.params.id]);
+    if (response.rows.length === 0) {
+      return res.status(404).send({ error: 'Legend not found' });
+    }
     res.send(response.rows[0]);
   } catch (err) {
     next(err);

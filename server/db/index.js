@@ -1,8 +1,22 @@
 const client = require('./client')
+const path = require('path')
+const fs = require('fs')
 const { createLegends } = require('./legends')
 const { createUsers } = require('./users')
 const { createFavorites } = require('./favorites')
 
+const loadImage = (filePath) => {
+    return new Promise((resolve, reject) => {
+      const fullPath = path.join(__dirname,filePath)
+      fs.readFile(fullPath, 'base64', (err, result) => {
+            if(err){
+                reject(err)
+            }else{
+                resolve(`data:image/png;base64, ${result}`)
+            }
+      })
+    })
+}
 
 const seed = async () => {
     const SQL = `
@@ -19,7 +33,7 @@ const seed = async () => {
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             username VARCHAR(100) NOT NULL UNIQUE,
             password VARCHAR(100) NOT NULL,
-            is_admin BOOLEAN DEFAULT false NOT NULL
+            is_admin BOOLEAN DEFAULT false 
         );
 
 
@@ -53,6 +67,29 @@ const seed = async () => {
         );
     `
     await client.query(SQL)
+
+    const jordanImage = await loadImage('images/jordan.png')
+    const magicImage = await loadImage('images/magic.png.avif')
+    const lebronImage = await loadImage('images/lebron.png.avif')
+    const birdImage = await loadImage('images/bird.png.avif')
+    const kobeImage = await loadImage('images/kobe.png.avif')
+    const timImage = await loadImage('images/duncan.png.avif')
+    const shaqImage = await loadImage('images/shaq.png.avif')
+    const russellImage = await loadImage('images/russell.png.avif')
+    const wiltImage = await loadImage('images/wilt.png.avif')
+    const curryImage = await loadImage('images/curry.png')
+    const durantImage = await loadImage('images/durant.png.avif')
+    const hakeemImage = await loadImage('images/hakeem.png.webp')
+    const robinsonImage = await loadImage('images/robinson.png.avif')
+    const kareemImage = await loadImage('images/kareem.jpeg')
+    const iversonImage = await loadImage('images/ai.png.webp')
+    const maloneImage = await loadImage('images/malone.png.webp')
+    const mosesImage = await loadImage('images/moses.png.webp')
+    const drjImage = await loadImage('images/drj.png.webp')
+    const charlesImage = await loadImage('images/chuck.png.webp')
+    const dirkImage = await loadImage('images/dirk.png.avif')
+   
+
     const [Michael, Magic, LeBron, Larry, Kobe, Tim, Shaquille, Bill, Wilt, Stephen,
         Kevin, Hakeem, David, Dirk, Kareem, Allen, Karl, Moses, Julius, Charles
      ] = await Promise.all([
@@ -72,7 +109,7 @@ const seed = async () => {
         scoring_titles: 10,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/UXooSR1WDSLP5LUb6',
+        image_url: jordanImage,
         is_approved: true}),
 
         createLegends({
@@ -91,7 +128,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 0,
         assist_titles: 4,
-        image_url: 'https://images.app.goo.gl/hjwJKfZ5ennMGRj68',
+        image_url: magicImage,
         is_approved: true}),
 
         createLegends({
@@ -110,7 +147,7 @@ const seed = async () => {
         scoring_titles: 1,
         rebounding_titles: 0,
         assist_titles: 1,
-        image_url: 'https://images.app.goo.gl/dVixFCwvjGvm63qW8',
+        image_url: lebronImage,
         is_approved: true}),
 
         createLegends({
@@ -129,7 +166,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/nT276ouPzwKa1Zm77',
+        image_url: birdImage,
         is_approved: true}),
 
         createLegends({
@@ -148,7 +185,7 @@ const seed = async () => {
         scoring_titles: 2,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/avfB7FvicrqrJhZP6',
+        image_url: kobeImage,
         is_approved: true}),
 
         createLegends({
@@ -167,7 +204,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 1,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/KsPdQaU22ZPTnHfU7',
+        image_url: timImage,
         is_approved: true}),
 
         createLegends({
@@ -186,7 +223,7 @@ const seed = async () => {
         scoring_titles: 2,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/QzcmQnxuFimmRvcQ7',
+        image_url: shaqImage,
         is_approved: true}),
 
         createLegends({
@@ -205,7 +242,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 5,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/puLmoigPKNJbnAM96',
+        image_url: russellImage,
         is_approved: true}),
 
         createLegends({
@@ -224,7 +261,7 @@ const seed = async () => {
         scoring_titles: 7,
         rebounding_titles: 11,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/s9AhhDhJcKb82SWc8',
+        image_url: wiltImage,
         is_approved: true}),
 
         createLegends({
@@ -243,7 +280,7 @@ const seed = async () => {
         scoring_titles: 2,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/2hBrd1QjfjUpr8tw8',
+        image_url: curryImage,
         is_approved: true}),
 
         createLegends({
@@ -262,7 +299,7 @@ const seed = async () => {
         scoring_titles: 4,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/CW4epr2s8tnQd9fk9',
+        image_url: durantImage,
         is_approved: true}),
 
         createLegends({
@@ -281,7 +318,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 2,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/8b7Z3d8fXQe1cW9h7',
+        image_url: hakeemImage,
         is_approved: true}),
 
         createLegends({
@@ -300,7 +337,7 @@ const seed = async () => {
         scoring_titles: 1,
         rebounding_titles: 1,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/xoRZmpXeMRtdCsVs7',
+        image_url: robinsonImage,
         is_approved: true}),
 
         createLegends({
@@ -319,7 +356,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/JFMUwZQwQ5XmFW1L6',
+        image_url: dirkImage,
         is_approved: true}),
 
         createLegends({
@@ -338,7 +375,7 @@ const seed = async () => {
         scoring_titles: 2,
         rebounding_titles: 1,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/8b7Z3d8fXQe1cW9h7',
+        image_url: kareemImage,
         is_approved: true}),
 
         createLegends({
@@ -357,7 +394,7 @@ const seed = async () => {
         scoring_titles: 4,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/LyDCKtmdezwu5GVn7',
+        image_url: iversonImage,
         is_approved: true}),
 
         createLegends({
@@ -376,7 +413,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/7TvzGt6m8SZiwgfs9',
+        image_url: maloneImage,
         is_approved: true}),
 
         createLegends({
@@ -395,7 +432,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 6,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/xUHMNS3XFt1rzw976',
+        image_url: mosesImage,
         is_approved: true}),
 
         createLegends({
@@ -414,7 +451,7 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 0,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/prH5SebzT9BkHbadA',
+        image_url: drjImage,
         is_approved: true}),
 
         createLegends({
@@ -433,9 +470,11 @@ const seed = async () => {
         scoring_titles: 0,
         rebounding_titles: 1,
         assist_titles: 0,
-        image_url: 'https://images.app.goo.gl/z1MGXvEdsuwu1d9T6',
+        image_url: charlesImage,
         is_approved: true})
     ])
+
+    
 
     const [Will, Test, Johnny] = await Promise.all([
         createUsers({username:'Will', password:'2redfred', is_admin: true}),

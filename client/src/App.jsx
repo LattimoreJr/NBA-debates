@@ -7,6 +7,8 @@ import UserHome from './components/UserHome';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Compare from './components/Compare';
+import Admin from './components/Admin';
+import Register from './components/Register';
 
 function App() {
   const [legends, setLegends] = useState([])
@@ -93,6 +95,8 @@ useEffect(() => {
             <Route path = "/login" element={<Login attempLoginWithToken={attempLoginWithToken} />} />
             <Route path = "/legends" element={<Legends legends={legends} setLegends={setLegends}/>}/>
             <Route path="/compare/:id1/:id2" element={<Compare />} />
+            <Route path= "/admin" element={<Admin/>}/>
+            <Route path= "/register" element={<Register/>}/>
           </Routes>
     </div>
   )

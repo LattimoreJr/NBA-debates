@@ -5,6 +5,7 @@ const {
   fetchUsers,
   fetchUserById, 
   fetchFavoritesByUserId,
+  createUsers
 } = require('../db/users')
 
 const {
@@ -38,5 +39,13 @@ router.get('/:id/favorites', isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
+
+router.post('/register', async (req, res, next) => {
+    try {
+      res.send(await createUsers(req.body))
+    } catch (error) {
+      next(error)
+    }
+})
 
 module.exports = router

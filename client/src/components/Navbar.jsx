@@ -24,7 +24,11 @@ const Navbar = () => {
     return (
         <nav>
             <Link to="/">Home</Link> | 
-            {!isLoggedIn && <Link to="/login">Login</Link>} 
+            {!isLoggedIn && (
+                <>
+                  <Link to="/login">Login</Link> | <Link to="/register">Register</Link>
+                </>
+            )} 
             {isLoggedIn && <>
             <Link to="/userHome">About Me</Link> 
             {isAdmin && <> | <Link to="/admin">Admin</Link></>}

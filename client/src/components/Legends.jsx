@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import './Legend.css'
 
 const Legends = ({ legends, setLegends }) => {
     const [selected, setSelected] = useState([]);
@@ -22,12 +23,20 @@ const Legends = ({ legends, setLegends }) => {
     };
 
     return (
-        <div>
+        <div className="legend-container">
             <h1>NBA Legends</h1>
             {
                 legends.map((legend) => (
-                    <ul key={legend.id}>
-                        <li>{legend.first_name} {legend.last_name}</li>
+                    <ul key={legend.id} className="legend-card">
+                        <li>
+                           {legend.image_url ? (
+                               <div className="legend-image-wrapper">
+                                   <img className="legend-image" src={legend.image_url} alt={`${legend.first_name} ${legend.last_name}`} />
+                               </div>
+                           ) : null}
+                            <br/>
+                            {legend.first_name} {legend.last_name}
+                        </li>
                         <button onClick={() => handleSelect(legend.id)}>
                             {selected.includes(legend.id) ? "Selected" : "Select"}
                         </button>

@@ -1,7 +1,9 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ attempLoginWithToken }) => {
-  const login = async (ev) => {
+    const navigate = useNavigate()
+    const login = async (ev) => {
     ev.preventDefault(); // stop page reload
 
     const formData = new FormData(ev.target);
@@ -20,6 +22,7 @@ const Login = ({ attempLoginWithToken }) => {
 
       window.localStorage.setItem('token', data.token.token);
       attempLoginWithToken();
+      navigate('/')  
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
       alert("Login failed. Please check your credentials.");

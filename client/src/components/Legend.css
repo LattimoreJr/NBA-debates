@@ -1,0 +1,112 @@
+.legend-image {
+  max-width: 150px;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.legend-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.player-card {
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+  transition: transform 0.2s;
+}
+
+.player-card:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.card-front {
+  background-color: #fff;
+  z-index: 2;
+}
+
+.card-back {
+  background-color: #f4f4f4;
+  transform: rotateY(180deg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-items: start;
+  justify-items: start;
+}
+
+.card-back p {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.stat-better {
+  color: green;
+  font-weight: bold;
+}
+
+.stat-worse {
+  color: red;
+  font-weight: bold;
+}
+
+.legend-image {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.player-card h2 {
+  margin-bottom: 10px;
+}
+
+.player-card p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+}
+
+.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.legend-card {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}

@@ -24,8 +24,6 @@ const Home = ({ handleSignup }) => {
         only registered users can save favorites and suggest new legends to be added.
       </p>
 
-
-
       <p>
         Want to see the legends? <Link to="/legends">Browse the list</Link>
       </p>
