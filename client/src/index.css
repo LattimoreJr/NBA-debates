@@ -79,3 +79,59 @@ footer {
   padding: 10px;
   margin-top: 20px;
 }
+
+/* Light mode (default) */
+body.light-mode {
+  background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+  color: #1c1c1c;
+}
+
+body.light-mode nav {
+  background: linear-gradient(90deg, #c8102e, #ffffff, #0033a0);
+}
+
+body.light-mode button {
+  background-color: #c8102e;
+  color: #fff;
+}
+
+body.light-mode .player-card, 
+body.light-mode .card {
+  background: #fff;
+  border: 2px solid #0033a0;
+}
+
+/* Dark mode */
+body.dark-mode {
+  background: linear-gradient(to bottom, #121212, #1e1e1e);
+  color: #e0e0e0;
+}
+
+body.dark-mode nav {
+  background: linear-gradient(90deg, #111, #333, #111);
+  color: #e0e0e0;
+}
+
+body.dark-mode nav a {
+  color: #e0e0e0;
+}
+
+body.dark-mode button {
+  background-color: #555;
+  color: #fff;
+}
+
+body.dark-mode button:hover {
+  background-color: #888;
+}
+
+body.dark-mode .player-card,
+body.dark-mode .card {
+  background: #1e1e1e;
+  border: 2px solid #888;
+}
+
+body.dark-mode footer {
+  background: linear-gradient(90deg, #111, #333, #111);
+  color: #e0e0e0;
+}

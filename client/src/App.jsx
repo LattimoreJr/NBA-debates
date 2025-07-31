@@ -17,6 +17,7 @@ function App() {
   const [favorites, setFavorites] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [darkMode, setDarkMode] = useState(false);
 
  useEffect(() => {
   const token = window.localStorage.getItem("token");
@@ -33,6 +34,10 @@ function App() {
     setIsAdmin(false);
   }
 }, []);
+
+useEffect(() => {
+  document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+}, [darkMode]);
 
   const getHeaders = () => {
     const token = window.localStorage.getItem('token');
@@ -100,7 +105,7 @@ useEffect(() => {
 
   return (
     <div>
-      <Navbar isAdmin={isAdmin} isLoggedIn={isLoggedIn} />
+      <Navbar isAdmin={isAdmin} isLoggedIn={isLoggedIn} darkMode={darkMode} setDarkMode={setDarkMode} />
       {user.id && (
         <div>
           <h3>Welcome {user.username}!</h3>

@@ -3,7 +3,7 @@ const {v4} = require('uuid')
 const uuidv4 = v4
 
 const createFavorites = async (favorite) => {
-    // Find the current highest order_rank for this user
+    
     const maxRankResult = await client.query(
         `SELECT COALESCE(MAX(order_rank), -1) + 1 AS next_rank FROM favorites WHERE user_id = $1`,
         [favorite.user_id]

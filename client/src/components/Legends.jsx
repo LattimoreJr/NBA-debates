@@ -36,9 +36,22 @@ const Legends = ({ legends, setLegends }) => {
         }
     };
 
+    // Random Matchup handler
+    const handleRandomMatchup = () => {
+        if (legends.length < 2) return;
+        const shuffled = [...legends].sort(() => 0.5 - Math.random());
+        const selectedPair = shuffled.slice(0, 2).map(player => player.id);
+        navigate(`/compare/${selectedPair[0]}/${selectedPair[1]}`);
+    };
+
     return (
         <div className="legend-container">
             <h1>NBA Legends</h1>
+            <div>
+                <button className="random-matchup-btn" onClick={handleRandomMatchup}>
+                Random Matchup
+            </button>
+            </div>
             {
                 legends.map((legend) => (
                     <div key={legend.id} className="player-card">

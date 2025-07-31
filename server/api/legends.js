@@ -22,7 +22,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// Move this route definition ABOVE the `/:id` route to prevent accidental capture
+
 router.get('/pending', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const SQL = 'SELECT * FROM legends WHERE is_approved = false';
@@ -48,7 +48,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', isLoggedIn, async (req, res, next) => {
-  // Sanitize number fields: convert empty string, undefined, or null to null, else parse as number
+  
   const sanitizeNumber = (val) => {
     if (val === '' || val === undefined || val === null) return null;
     const num = Number(val);
