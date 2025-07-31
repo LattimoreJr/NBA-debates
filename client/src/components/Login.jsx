@@ -17,13 +17,13 @@ const Login = ({ attempLoginWithToken }) => {
       password,
     };
 
-    console.log("Attempting login with:", user);
+    
 
     try {
       const { data } = await axios.post(`${API_URL}/api/auth/login`, user);
       
-      const token  = data.token || data?.token?.token;
-      console.log("Token to store:", token, typeof token);
+      const token = typeof data.token === 'string' ? data.token : data?.token?.token;
+      console.log("Extracted token string:", token);
       if (!token || typeof token !== 'string') {
         alert("Invalid token received from server");
       }
