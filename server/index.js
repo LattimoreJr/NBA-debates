@@ -32,6 +32,10 @@ app.use('/api', apiRouter);
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
+
+app.use('/images', express.static(path.join(__dirname, '../client/public/images')));
+
 app.use('/assets', express.static(path.join(__dirname, '../client/dist/assets')));
 
 
