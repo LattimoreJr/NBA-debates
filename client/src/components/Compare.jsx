@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Legend.css'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 
 
 const Compare = () => {
@@ -16,8 +18,8 @@ const Compare = () => {
     const fetchPlayers = async () => {
       try {
         const [res1, res2] = await Promise.all([
-          axios.get(`http://localhost:3000/api/legends/${id1}`),
-          axios.get(`http://localhost:3000/api/legends/${id2}`),
+          axios.get(`${API_URL}/api/legends/${id1}`),
+          axios.get(`${API_URL}/api/legends/${id2}`),
         ]);
         setPlayers([res1.data, res2.data]);
       } catch (error) {

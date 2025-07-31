@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const Admin = () => {
     const getHeaders = () => {
         const token = window.localStorage.getItem("token");
@@ -24,7 +26,7 @@ const Admin = () => {
 
     const fetchPendingPlayers = async () => {
         try {
-            const response = await axios.get("/api/legends/pending", getHeaders());
+            const response = await axios.get(`${API_URL}/api/legends/pending`, getHeaders());
             setPendingPlayers(response.data);
         } catch (error) {
             console.error("Error fetching pending players:", error);
@@ -33,7 +35,7 @@ const Admin = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("/api/users", getHeaders());
+            const response = await axios.get(`${API_URL}/api/users`, getHeaders());
             setUsers(response.data);
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -42,7 +44,7 @@ const Admin = () => {
 
     const fetchApprovedPlayers = async () => {
         try {
-            const response = await axios.get("/api/legends", getHeaders());
+            const response = await axios.get(`${API_URL}/api/legends`, getHeaders());
             setApprovedPlayers(response.data);
         } catch (error) {
             console.error("Error fetching approved players:", error);
@@ -51,11 +53,10 @@ const Admin = () => {
 
     const approvePlayer = async (id) => {
         try {
-            const { data } = await axios.put(`/api/legends/${id}/approve`, {}, getHeaders());
-            // Remove approved player from pending list
+            const { data } = await axios.put(`${API_URL}/api/legends/${id}/approve`, {}, getHeaders());
+           
             setPendingPlayers(prev => prev.filter(player => player.id !== id));
-            // Optionally update a legends list if you manage it globally
-            // setLegends(prev => [...prev, data]);
+    
         } catch (error) {
             console.error("Error approving player:", error);
         }
@@ -63,7 +64,7 @@ const Admin = () => {
 
     const rejectPlayer = async (id) => {
         try {
-            await axios.delete(`/api/legends/${id}`, getHeaders());
+            await axios.delete(`${API_URL}/api/legends/${id}`, getHeaders());
             fetchPendingPlayers();
         } catch (error) {
             console.error("Error rejecting player:", error);
@@ -72,7 +73,7 @@ const Admin = () => {
 
     const removePlayer = async (id) => {
         try {
-            await axios.delete(`/api/legends/${id}`, getHeaders());
+            await axios.delete(`${API_URL}/api/legends/${id}`, getHeaders());
             setApprovedPlayers(prev => prev.filter(player => player.id !== id));
         } catch (error) {
             console.error("Error removing player:", error);
@@ -81,7 +82,7 @@ const Admin = () => {
 
     const updatePlayerImage = async (id, imageUrl) => {
         try {
-            await axios.put(`/api/legends/${id}/image`, { image_url: imageUrl }, getHeaders());
+            await axios.put(`${API_URL}/api/legends/${id}/image`, { image_url: imageUrl }, getHeaders());
             fetchPendingPlayers();
             fetchApprovedPlayers();
         } catch (error) {

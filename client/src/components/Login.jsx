@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const Login = ({ attempLoginWithToken }) => {
     const navigate = useNavigate()
     const login = async (ev) => {
-    ev.preventDefault(); // stop page reload
+    ev.preventDefault(); 
 
     const formData = new FormData(ev.target);
     const username = formData.get("username");
@@ -16,11 +18,11 @@ const Login = ({ attempLoginWithToken }) => {
     };
 
     try {
-      const { data } = await axios.post("http://localhost:3000/api/auth/login", user);
+      const { data } = await axios.post(`${API_URL}/api/auth/login`, user);
       
-      const {token} = data
+      const { token } = data;
 
-      window.localStorage.setItem('token', data.token.token);
+      window.localStorage.setItem('token', token);
       attempLoginWithToken();
       navigate('/')  
     } catch (err) {

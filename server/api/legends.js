@@ -183,7 +183,7 @@ router.delete('/:id', isLoggedIn, isAdmin, async (req, res, next) => {
   }
 });
 
-// Route for updating a legend's image URL (admin only)
+
 router.put('/:id/image', isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const { image_url } = req.body;

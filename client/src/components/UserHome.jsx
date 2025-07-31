@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL || '';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,7 @@ const UserHome = () => {
     const fetchFavorites = async () => {
       try {
         const token = window.localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3000/api/favorites", {
+        const response = await axios.get(`${API_URL}/api/favorites`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -49,7 +50,7 @@ const UserHome = () => {
     try {
         console.log("Attempting to remove favorite with legendId:", legendId);
         const token = window.localStorage.getItem("token");
-        await axios.delete(`http://localhost:3000/api/favorites/${legendId}`, {
+        await axios.delete(`${API_URL}/api/favorites/${legendId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -74,7 +75,7 @@ const handleMoveFavorite = async (index, direction) => {
   
     try {
         const token = window.localStorage.getItem("token");
-        await axios.put("http://localhost:3000/api/favorites/reorder", {
+        await axios.put(`${API_URL}/api/favorites/reorder`, {
             favorites: newFavorites.map((fav, i) => ({
                 legend_id: fav.id,
                 order_rank: i
@@ -92,7 +93,7 @@ const handleAddPlayer = async (e) => {
   e.preventDefault();
   try {
     const token = window.localStorage.getItem("token");
-    await axios.post("http://localhost:3000/api/legends", newPlayer, {
+    await axios.post(`${API_URL}/api/legends`, newPlayer, {
       headers: { Authorization: `Bearer ${token}` },
     });
     alert("Player submitted for admin approval!");

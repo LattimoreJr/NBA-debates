@@ -1,5 +1,6 @@
+const API_URL = import.meta.env.VITE_API_URL || '';
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './Legend.css'
@@ -7,6 +8,10 @@ import './Legend.css'
 const Legends = ({ legends, setLegends }) => {
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log("Fetching legends from:", `${API_URL}/api/legends`);
+    }, []);
 
     if (!Array.isArray(legends)) {
         return <div>Loading legends...</div>;
@@ -26,17 +31,18 @@ const Legends = ({ legends, setLegends }) => {
     const handleAddFavorite = async (id) => {
         try {
             const token = window.localStorage.getItem("token");
-            await axios.post(`/api/favorites/${id}`, {}, {
+            await axios.post(`${API_URL}/api/favorites/${id}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Player added to favorites!");
         } catch (error) {
             console.error("Error adding favorite:", error);
+            console.error("API URL used:", `${API_URL}/api/favorites/${id}`);
             alert("Could not add player to favorites");
         }
     };
 
-    // Random Matchup handler
+  
     const handleRandomMatchup = () => {
         if (legends.length < 2) return;
         const shuffled = [...legends].sort(() => 0.5 - Math.random());

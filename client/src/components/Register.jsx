@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL || '';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -16,7 +17,7 @@ const Register =  () => {
             is_admin: false
         }
         try {
-            const {data} = await axios.post('/api/users/register', user)
+            const {data} = await axios.post(`${API_URL}/api/users/register`, user)
             alert('registration successful!')
             navigate('/')
         } catch (error) {
