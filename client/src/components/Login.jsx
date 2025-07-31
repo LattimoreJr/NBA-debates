@@ -22,10 +22,14 @@ const Login = ({ attempLoginWithToken }) => {
     try {
       const { data } = await axios.post(`${API_URL}/api/auth/login`, user);
       
-      const token  = data.token || data?.token?.token
+      const token  = data.token || data?.token?.token;
+      console.log("Token to store:", token, typeof token);
+      if (!token || typeof token !== 'string') {
+        alert("Invalid token received from server");
+      }
       window.localStorage.setItem('token', token);
       attempLoginWithToken();
-      navigate('/')  
+      navigate('/')
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
       alert("Login failed. Please check your credentials.");
