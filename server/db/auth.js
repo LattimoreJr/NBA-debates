@@ -6,14 +6,14 @@ const jwt = require('jsonwebtoken')
 
 const findUserByToken = async (token) => {
     try {
-        if (!process.env.JWT) {
+        if (!process.env.JWT_SECRET) {
             console.error('JWT secret is not defined in environment variables.');
             throw new Error('JWT secret not configured');
         }
         if (token.startsWith('Bearer ')) {
             token = token.replace('Bearer ', '');
         }
-        const payload = jwt.verify(token, process.env.JWT);
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
 
         const SQL = `
             SELECT id, username, is_admin AS "isAdmin"
@@ -58,11 +58,11 @@ const authenticate = async (credentials) => {
         error.status = 401;
         throw error
     }
-    if (!process.env.JWT) {
+    if (!process.env.JWT_SECRET) {
         console.error('JWT secret is not defined in environment variables.');
         throw new Error('JWT secret not configured');
     }
-    const token = await jwt.sign({id: response.rows[0].id, isAdmin: response.rows[0].isAdmin}, process.env.JWT)
+    const token = await jwt.sign({id: response.rows[0].id, isAdmin: response.rows[0].isAdmin}, process.env.JWT_SECRET)
     return {token}
 }
 
