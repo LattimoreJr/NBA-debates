@@ -80,7 +80,7 @@ footer {
   margin-top: 20px;
 }
 
-/* Light mode (default) */
+
 body.light-mode {
   background: linear-gradient(to bottom, #ffffff, #f0f0f0);
   color: #1c1c1c;
@@ -101,7 +101,7 @@ body.light-mode .card {
   border: 2px solid #0033a0;
 }
 
-/* Dark mode */
+
 body.dark-mode {
   background: linear-gradient(to bottom, #121212, #1e1e1e);
   color: #e0e0e0;

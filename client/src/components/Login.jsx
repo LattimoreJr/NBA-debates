@@ -22,9 +22,7 @@ const Login = ({ attempLoginWithToken }) => {
     try {
       const { data } = await axios.post(`${API_URL}/api/auth/login`, user);
       
-      const { token } = data;
-
-      console.log("Token received from backend:", token);
+      const token  = data.token || data?.token?.token
       window.localStorage.setItem('token', token);
       attempLoginWithToken();
       navigate('/')  
